@@ -1,0 +1,120 @@
+Description: Add Support for reading mytop config from standard ~/.my.cnf file. 
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+--- a/mytop
++++ b/mytop
+@@ -15,6 +15,7 @@
+ use 5.005;
+ use strict;
+ use DBI;
++use Config::IniFiles;
+ use Getopt::Long;
+ use DBD::mysql;
+ use Socket;
+@@ -76,6 +77,7 @@
+     batchmode     => 0,
+     color         => 1,
+     db            => '',
++    database	  => '',
+     delay         => 5,
+     filter_user   => qr/.?/,
+     filter_db     => qr/.?/,
+@@ -90,6 +92,7 @@
+     mode          => 'top',
+     prompt        => 0,
+     pass          => '',
++    password	  => '',
+     port          => 3306,
+     resolve       => 0,
+     slow	  => 10,	# slow query time
+@@ -112,6 +115,37 @@
+ my $RM_RESET   = 0;
+ my $RM_NOBLKRD = 3; ## using 4 traps Ctrl-C :-(
+ 
++## Try ~/.my.cnf first
++
++my $mycnf = "$ENV{HOME}/.my.cnf";
++
++if (-e $mycnf)
++{
++       my $cfgini = new Config::IniFiles( -file => $mycnf );
++	if ( not defined $cfgini )
++        {
++                foreach my $error (@Config::IniFiles::errors)
++                {
++                        print $error;
++                        print "\n";
++                }
++                exit;
++        }
++
++        my @sections = ('client', 'mytop');
++
++        foreach my $section (@sections) {
++                foreach my $param ($cfgini->Parameters ($section))
++                {
++                        $config{$param} = $cfgini->val($section, $param) if exists $config{$param};
++                }
++        }
++        ## map database/password onto db/pass (long version gets precedence in .my.cnf)
++        $config{'db'} = $config{'database'} if $config{'database'};
++        $config{'pass'} = $config{'password'} if $config{'password'};
++}
++
++
+ ## Read the user's config file, if it exists.
+ 
+ my $config = "$ENV{HOME}/.mytop";
+@@ -134,6 +168,9 @@
+         }
+         close CFG;
+     }
++    ## map database/password onto db/pass (short version gets precedence for historical reasons)
++    $config{'db'} = $config{'database'} unless $config{'db'};
++    $config{'pass'} = $config{'password'} unless $config{'pass'};
+ }
+ 
+ ## Command-line args.
+@@ -251,8 +288,8 @@
+   * port you specified "$config{port}" (default is 3306)
+   * socket you specified "$config{socket}" (default is "")
+ 
+-The options my be specified on the command-line or in a ~/.mytop
+-config file. See the manual (perldoc mytop) for details.
++The options my be specified on the command-line or in a ~/.mytop or
++~/.my.cnf config file. See the manual (perldoc mytop) for details.
+ 
+ Here's the exact error from DBI. It might help you debug:
+ 
+@@ -1774,6 +1811,7 @@
+ following:
+ 
+   * Perl 5.005 or newer
++  * Config::IniFiles;
+   * Getopt::Long
+   * DBI and DBD::mysql
+   * Term::ReadKey from CPAN
+@@ -2073,6 +2111,13 @@
+ You may have white space on either side of the C<=> in lines of the
+ config file.
+ 
++If present, mytop will also read mysql's default config file C<~/.my.cnf>.
++Values from both the [client] and [mytop] section are read, in this order.
++The long options I<database> and I<password> are preferred over the short
++versions I<db> and I<pass> to match mysql's syntax.
++These settings take lowest precedence and will be overwritten by either
++values in C<~/.mytop> or command-line options.
++
+ =head2 Shortcut Keys
+ 
+ The following keys perform various actions while B<mytop> is
+@@ -2212,9 +2257,6 @@
+ may appear odd. I have no good idea as to how best to deal with that
+ yet. Suggestions are welcome.
+ 
+-It'd be nice if you could just add B<mytop> configuration directives
+-in your C<my.cnf> file instead of having a separate config file.
+-
+ You should be able to specify the columns you'd like to see in the
+ display and the order in which they appear. If you only have one
+ username that connects to your database, it's probably not worth

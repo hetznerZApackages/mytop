@@ -1,0 +1,25 @@
+Description: replace deprecated SHOW INNODB STATUS command
+Author: Werner Detter <werner@aloah-from-hell.de>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -1326,7 +1326,7 @@ sub GetInnoDBStatus()
+         }
+     }
+ 
+-    my @data = Hashes("SHOW INNODB STATUS");
++    my @data = Hashes("SHOW ENGINE INNODB STATUS");
+ 
+     open P, "|$config{pager}" or die "$!";
+     print keys %{$data[0]};
+@@ -2174,8 +2174,8 @@ running queries appear at the top of the
+ 
+ =item B<I>
+ 
+-Switch to InnoDB Status mode.  The output of "SHOW INNODB STATUS" will
+-be displayed every cycle.  In a future version, this may actually
++Switch to InnoDB Status mode. The output of "SHOW ENGINE INNODB STATUS"
++will be displayed every cycle. In a future version, this may actually
+ summarize that data rather than producing raw output.
+ 
+ =item B<k>

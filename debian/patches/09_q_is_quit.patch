@@ -1,0 +1,35 @@
+Description: 'q' quits mytop, and does not changes back to 't'hread mode.
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -439,7 +439,7 @@
+     {
+         $config{mode} = 'qps';
+         Clear() unless $config{batchmode};
+-        print "Queries Per Second [hit q to exit this mode]\n";
++	print "Queries Per Second\n";
+         next;
+     }
+ 
+@@ -449,8 +449,8 @@
+     {
+         $config{mode} = 'cmd';
+         Clear() unless $config{batchmode};
+-        print "Command Summary [hit q to exit this mode]\n";
+-        next;
++       	print "Command Summary\n"; 
++	next;
+     }
+ 
+     ## C - change Color on and off
+@@ -599,7 +599,7 @@
+     {
+         $config{mode} = 'innodb';
+         Clear() unless $config{batchmode};
+-        print "InnoDB Status [hit q to exit this mode]\n";
++	print "InnoDB Status\n";
+         next;
+     }
+ 

@@ -1,0 +1,42 @@
+Description: Fix width
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+--- a/mytop
++++ b/mytop
+@@ -904,7 +904,7 @@
+ 
+         my $current_time = sprintf "[%02d:%02d:%02d]", $t[2], $t[1], $t[0];
+ 
+-        my $host_width = 75;
++        my $host_width = 80;
+         my $up_width   = $width - $host_width;
+ 
+         Clear() unless $config{batchmode};
+@@ -916,7 +916,7 @@
+         $lines_left--;
+ 
+ 
+-        printf " Queries: %-6s  qps: %4.0f Slow: %7s         Se/In/Up/De(%%):    %02.0f/%02.0f/%02.0f/%02.0f \n",
++        printf " Queries: %-7s  qps: %4.0f Slow: %7s         Se/In/Up/De(%%):    %02.0f/%02.0f/%02.0f/%02.0f \n",
+                make_short( $STATUS{Questions} ),  # q total
+                $STATUS{Questions} / $STATUS{Uptime},  # qps, average
+                make_short( $STATUS{Slow_queries} ),    # slow
+@@ -977,7 +977,7 @@
+                 print RED() if ($Ratio < 50.0);
+                 print MAGENTA() if ($Ratio < 20.0);
+           }
+-          printf("%4.1f%% ",$Ratio);
++          printf("%4.1f%%$/",$Ratio);
+           if ($HAS_COLOR)
+           {
+                 print RESET();
+@@ -1001,8 +1001,8 @@
+           {
+                 print RESET();
+           }
++	  $lines_left--;
+         }
+-        $lines_left--;
+ 
+ 
+         printf(" Key Efficiency: %2.1f%%  Bps in/out: %5s/%5s   ",

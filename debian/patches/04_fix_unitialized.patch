@@ -1,0 +1,18 @@
+Description: Use of uninitialized value in substitution (s///) at /usr/bin/mytop, (Closes: #455901)
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -1121,6 +1121,11 @@
+ #	    my $host = $thread->{Host};
+ 	    my $host = gethostbyaddr(inet_aton($thread->{Host}), AF_INET);
+ #            $host =~ s/^([^.]+).*/$1/;
++	    if ($host) 
++	    {
++		$host =~ s/^([^.]+).*/$1/;
++		$thread->{Host} = $host;
++	    }
+             $thread->{Host} = $host;
+         }
+ 

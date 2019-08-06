@@ -1,0 +1,33 @@
+Description: Unknown database 'test', use '' instead (Closes: #424063)
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -75,7 +75,7 @@
+ my %config = (
+     batchmode     => 0,
+     color         => 1,
+-    db            => 'test',
++    db            => '',
+     delay         => 5,
+     filter_user   => qr/.?/,
+     filter_db     => qr/.?/,
+@@ -244,7 +244,7 @@
+     my $Error = <<EODIE
+ Cannot connect to MySQL server. Please check the:
+ 
+-  * database you specified "$config{db}" (default is "test")
++  * database you specified "$config{db}" (default is "")
+   * username you specified "$config{user}" (default is "root")
+   * password you specified "$config{pass}" (default is "")
+   * hostname you specified "$config{host}" (default is "localhost")
+@@ -1936,7 +1936,7 @@
+ =item B<-d> or B<--db> or B<--database> I<database>
+ 
+ Use if you'd like B<mytop> to connect to a specific database by
+-default. Default: ``test''.
++default. Default: none.
+ 
+ =item B<-b> or B<--batch> or B<--batchmode>
+ 

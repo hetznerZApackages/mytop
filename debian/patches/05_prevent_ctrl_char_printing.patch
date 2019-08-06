@@ -1,0 +1,16 @@
+Description: Don't print control chars to the terminal (Closes: #477822), Based on path by Dmitry E. Oboukhov 
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -1152,6 +1152,9 @@
+         {
+ 	    ## collapse newlines and carriage returns and whitespaces
+             $thread->{Info} =~ s/[\n\r\s]+/ /g;
++
++	    # control symbols
++	    $thread->{Info} =~ s/[[:cntrl:]]/?/g;
+         }
+ 
+ 	## leading and trailing space removal

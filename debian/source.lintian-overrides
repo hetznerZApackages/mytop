@@ -1,0 +1,2 @@
+# disable debian-watch-may-check-gpg-signature as upstream does not provide cryptographic signature
+mytop source: debian-watch-may-check-gpg-signature

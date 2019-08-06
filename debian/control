@@ -1,0 +1,16 @@
+Source: mytop 
+Section: utils
+Priority: optional
+Maintainer: Werner Detter <werner@aloah-from-hell.de>
+Build-Depends: debhelper (>= 10)
+Homepage: http://www.mysqlfanboy.com/mytop-3/
+Standards-Version: 3.9.8
+
+Package: mytop 
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends}, libdbi-perl, libdbd-mysql-perl, libterm-readkey-perl, libconfig-inifiles-perl
+Recommends: libtime-hires-perl
+Description: top like query monitor for MySQL
+ Mytop is a console-based tool for monitoring queries and the performance
+ of MySQL. It supports version 3.22.x, 3.23.x, 4.x and 5.x servers. 
+ It's written in Perl and support connections using TCP/IP and UNIX sockets.

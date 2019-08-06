@@ -1,0 +1,23 @@
+Description: fix homepage url in manpage
+Author: Werner Detter <werner@aloah-from-hell.de>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -1703,7 +1703,7 @@ Help for mytop version $main::VERSION by
+   ! - Skip an error that has stopped replications (at your own risk)
+ 
+ ${GREEN}http://jeremy.zawodny.com/mysql/mytop/${RESET}
+-${GREEN}http://www.mysqlfanboy.com/mytop/${RESET}
++${GREEN}http://www.mysqlfanboy.com/mytop-3/${RESET}
+ ];
+ 
+     print $help;
+@@ -1812,7 +1812,7 @@ B<mytop> [options]
+ =head1 AVAILABILITY
+ 
+ The latest version of B<mytop> is available from
+-http://jeremy.zawodny.com/mysql/mytop/ it B<might> also be on CPAN as
++http://www.mysqlfanboy.com/mytop-3/ it B<might> also be on CPAN as
+ well.
+ 
+ =head1 REQUIREMENTS

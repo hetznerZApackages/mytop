@@ -1,0 +1,34 @@
+Description: fixes incorrect scope for SHOW SLAVE STATUS data variable
+Origin: Steffen Zieger 
+Author: Werner Detter <werner@aloah-from-hell.de>
+DEP: 3
+Bug-Debian: http://bugs.debian.org/756434
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1325004
+--- a/mytop
++++ b/mytop
+@@ -1059,21 +1059,16 @@
+ 
+         $lines_left--;
+ 
+-        my($data) = Hashes('show global variables like "read_only"');
+-        if ($data->{Value} ne "OFF")
++        my($read_only) = Hashes('show global variables like "read_only"');
++        if ($read_only->{Value} ne "OFF")
+         {
+             print RED() if ($HAS_COLOR) ;
+             print " ReadOnly";
+ 	    RESET() if ($HAS_COLOR);
+         }
+ 
+-	if(not defined $data)
+-        {
+-            my($data);
+-        }
+-
+-	$data = Hashes('SHOW SLAVE STATUS');
+-	if ($data != 0 and defined($data->{Master_Host}))
++	my($data) = Hashes('SHOW SLAVE STATUS');
++	if (defined($data->{Master_Host}))
+         {
+ 	    if (defined($data->{Seconds_Behind_Master}))
+ 	    {

@@ -1,0 +1,31 @@
+Format: http://anonscm.debian.org/viewvc/dep/web/deps/dep5.mdwn?revision=240
+Upstream-Name: mytop
+Source: http://www.mysqlfanboy.com/mytop-3/
+
+Files: *
+Copyright: (C) 2000-2003,2007 Jeremy D. Zawodny <Jeremy@zawodny.com> 
+           (C) 2010-2012, Mark Grennan <mark@grennan.com>
+License: GPL-2+
+
+Files: debian/*
+Copyright: (C) 2002-2009, Philipp Matthias Hahn <pmhahn@debian.org>
+           (C) 2013, Werner Detter <werner@aloah-from-hell.de>
+License: GPL-2+
+
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ .
+ On Debian systems, the complete text of the GNU General Public License can be
+ found in /usr/share/common-licenses/GPL-2 file.

@@ -1,0 +1,52 @@
+#!/usr/bin/make -f
+# written by Werner Detter <werner@aloah-from-hell.de
+# 
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+TMP     =$(CURDIR)/debian/
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	perl Makefile.PL INSTALLDIRS=vendor
+	$(MAKE) OPTIMIZE="-O2 -g -Wall"
+	touch $@
+
+clean:  
+	dh_testdir
+	dh_testroot
+	dh_clean build-stamp install-stamp
+
+install: install-stamp
+install-stamp: build-stamp
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_clean
+	$(MAKE) install DESTDIR=$(TMP)
+	dh_installchangelogs Changes
+	dh_installdocs debian/mytop.sample.conf 
+	dh_installman $(TMP)/usr/share/man/man1/mytop.1p
+	install -D -m 755 mytop debian/mytop/usr/bin/mytop
+	dh_perl
+	dh_lintian
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture-dependent files here.
+build-arch: build
+build-indep: build
+binary-arch: build
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary

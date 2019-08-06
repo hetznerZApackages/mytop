@@ -1,0 +1,33 @@
+Description: Add documentation os missing command line options. Document need for --sort when using --idle to get same sort order as when pressing 'i' during runtime.
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+--- a/mytop
++++ b/mytop
+@@ -2013,6 +2013,27 @@
+ 
+ Default: noresolve
+ 
++=item B<--long> or B<--nolong>
++
++For large numbers print all digits (e.g. 10.000) instead of using a more
++compact approximation (e.g. 10.0k).
++
++Default: nolong.
++
++=item B<-m> or B<--mode> I<mode>
++
++Specify initial mode B<qps>(queries/second), B<top>(overview),
++B<cmd>(command summary), B<innodb>(InnoDB status) or B<status>().
++
++Default: B<top>
++
++=item B<--sort> or B<--nosort>
++
++Reverse sort order from ascending to descending using Idle time.
++
++Default: nosort.
++
++
+ =back
+ 
+ Command-line arguments will always take precedence over config file

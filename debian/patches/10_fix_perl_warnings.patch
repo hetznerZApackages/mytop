@@ -1,0 +1,45 @@
+Description: fixes perl warning and version detection
+Author: Werner Detter <werner@aloah-from-hell.de>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -316,8 +316,13 @@
+ {
+     if ($_->{Variable_name} eq "version")
+     {
++	if($_->{Value} =~ m/-/)
++	{
++	    my @tmp_db_version = split(/-/,$_->{Value});
++	    $_->{Value} = $tmp_db_version[0];
++	}
+         $db_version = $_->{Value};
+-	$db_release = int(sprintf("%d",$db_version));
++	$db_release = int(substr($db_version, 0, 1));
+         next;
+     }
+     if ($_->{Variable_name} eq "have_query_cache")
+@@ -1028,7 +1033,7 @@
+                    ) || 1) : 0;
+           if ($HAS_COLOR)
+           {
+-                print GREEN() if ($Ratio_now => 80.0);
++                print GREEN() if ($Ratio_now >= 80.0);
+                 print YELLOW() if ($Ratio_now < 80.0);
+                 print RED() if ($Ratio_now < 50.0);
+                 print MAGENTA() if ($Ratio_now < 20.0);
+@@ -1062,8 +1067,13 @@
+ 	    RESET() if ($HAS_COLOR);
+         }
+ 
+-	my($data) = Hashes('SHOW SLAVE STATUS');
+-	if (defined($data->{Master_Host}))
++	if(not defined $data)
++        {
++            my($data);
++        }
++
++	$data = Hashes('SHOW SLAVE STATUS');
++	if ($data != 0 and defined($data->{Master_Host}))
+         {
+ 	    if (defined($data->{Seconds_Behind_Master}))
+ 	    {

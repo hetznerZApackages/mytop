@@ -1,0 +1,41 @@
+Description: A newline should be replaced by a space, not just deleted (Closes:#434625, #502179)
+Origin: old upstream version
+Author: Philipp Matthias Hahn <pmhahn@debian.org>
+DEP: 3
+--- a/mytop
++++ b/mytop
+@@ -1143,18 +1143,16 @@
+         ## break EXPLAIN if you try to explain a mangled query.  It
+         ## may be re-enabled later as an option.
+ 
+-        ## leading space removal
+-        $thread->{Info} =~ s/^\s*//;
+-
+         if (1)
+         {
+-            ## remove newlines and carriage returns
+-            $thread->{Info} =~ s/[\n\r]//g;
+-
+-            ## collpase whitespace
+-            $thread->{Info} =~ s/\s+/ /g;
++	    ## collapse newlines and carriage returns and whitespaces
++            $thread->{Info} =~ s/[\n\r\s]+/ /g;
+         }
+ 
++	## leading and trailing space removal
++        $thread->{Info} =~ s/^\s+//;
++        $thread->{Info} =~ s/\s+$//;
++
+         ## stow it in the cache
+ 
+         $qcache{$thread->{Id}}  = $thread->{Info};
+@@ -1709,6 +1707,9 @@
+ sub Execute($)
+ {
+     my $sql = shift;
++
++    $sql and $sql =~ s/\n/ /sg;
++
+     my $sth = $dbh->prepare($sql);
+ 
+     if (not $sth) { ReadMode($RM_RESET); die $DBI::errstr; }

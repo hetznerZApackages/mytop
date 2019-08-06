@@ -1,0 +1,14 @@
+01_fix_pod.patch
+02_remove_db_test.patch
+03_fix_newlines.patch
+04_fix_unitialized.patch
+05_prevent_ctrl_char_printing.patch
+06_fix_screenwidth.patch
+07_add_doc_on_missing_cli_options.patch
+08_add_mycnf.patch
+09_q_is_quit.patch
+10_fix_perl_warnings.patch
+11_fix_url_manpage.patch
+12_fix_spelling_and_allignment.patch
+13_fix_scope_for_show_slave_status_data.patch
+14_fix_deprecated_show_innodb_status.patch
